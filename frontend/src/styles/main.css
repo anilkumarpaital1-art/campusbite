@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+@apply font-poppins bg-bg text-gray-800;
+}
+
+/* NAVBAR */
+
+.navbar{
+@apply flex justify-between items-center px-10 py-4 bg-gradient-to-r from-red-900 to-red-700 text-white shadow-lg;
+}
+
+.logo-text{
+@apply text-2xl font-playfair font-bold;
+}
+
+.logo-highlight{
+@apply text-yellow-400;
+}
+
+/* HERO */
+
+.hero-section{
+@apply h-[420px] flex items-center justify-center bg-cover bg-center;
+}
+
+.hero-content{
+@apply bg-black/40 backdrop-blur-md p-10 rounded-2xl text-center shadow-2xl max-w-[800px];
+}
+
+/* FOOD CARD */
+
+.food-card{
+@apply bg-white rounded-2xl p-4 text-center shadow-md hover:shadow-xl hover:-translate-y-1 transition duration-200;
+}
+
+/* ORDER CARD */
+
+.order-card{
+@apply bg-white p-6 rounded-xl shadow-md border-l-4 border-red-500;
+}
+
+/* FILTER CHIP */
+
+.chip{
+@apply px-4 py-2 bg-gray-200 rounded-full cursor-pointer hover:bg-gray-300 transition;
+}
+
+.chip.active{
+@apply bg-red-500 text-white;
+}
+
+/* FLOATING CART */
+
+.floating-cart{
+@apply fixed bottom-6 right-6 bg-red-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition;
+}
+
+.menu-btn{
+width:100%;
+text-align:left;
+padding:12px 16px;
+font-size:14px;
+background:white;
+transition:0.2s;
+display:block;
+}
+
+.menu-btn:hover{
+background:#f3f4f6;
+}
