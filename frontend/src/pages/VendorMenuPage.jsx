@@ -11,7 +11,7 @@ const [newPrice,setNewPrice] = useState("");
 /* FETCH MENU */
 const fetchMenu = async () => {
   try {
-    const res = await fetch(`http://localhost:5000/api/menu/${restaurantId}`);
+    const res = await fetch(`https://campusbite-ur6n.onrender.com/api/menu/${restaurantId}`);
     const data = await res.json();
     setMenu(Array.isArray(data) ? data : data.data || []);
   } catch (err) {
@@ -22,7 +22,7 @@ const fetchMenu = async () => {
 useEffect(() => {
   async function loadMenu() {
     try {
-      const res = await fetch(`http://localhost:5000/api/menu/${restaurantId}`);
+      const res = await fetch(`https://campusbite-ur6n.onrender.com/api/menu/${restaurantId}`);
       const data = await res.json();
       setMenu(Array.isArray(data) ? data : data.data || []);
     } catch (err) {
@@ -38,7 +38,7 @@ async function addMenuItem(){
 
 if(!newItem || !newPrice) return;
 
-const res = await fetch("http://localhost:5000/api/menu/add",{
+const res = await fetch("https://campusbite-ur6n.onrender.com/api/menu/add",{
   method:"POST",
   headers:{ "Content-Type":"application/json" },
   body: JSON.stringify({
@@ -61,7 +61,7 @@ setNewPrice("");
 /* TOGGLE */
 async function setAvailability(id,value){
 
-await fetch("http://localhost:5000/api/menu/toggle",{
+await fetch("https://campusbite-ur6n.onrender.com/api/menu/toggle",{
   method:"POST",
   headers:{ "Content-Type":"application/json" },
   body: JSON.stringify({

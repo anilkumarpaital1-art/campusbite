@@ -3,6 +3,7 @@ import { getCart } from "../services/api";
 import { useMemo } from "react";
 import { getOrders } from "../services/api";
 
+
 const AppContext = createContext();
 
 
@@ -172,7 +173,7 @@ const filteredCart = useMemo(() => {
 
   // ================= CART ACTIONS =================
 const removeFromCart = async (id) => {
-  await fetch("http://localhost:5000/api/cart/remove", {
+  await fetch("https://campusbite-ur6n.onrender.com/api/cart/remove", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -191,7 +192,7 @@ const increaseQty = async (id) => {
   .find(i => i.id === id);
   if (!item) return;
 
-  await fetch("http://localhost:5000/api/cart/update", {
+  await fetch("https://campusbite-ur6n.onrender.com/api/cart/update", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -216,7 +217,7 @@ const decreaseQty = async (id) => {
     return;
   }
 
-  await fetch("http://localhost:5000/api/cart/update", {
+  await fetch("https://campusbite-ur6n.onrender.com/api/cart/update", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -270,7 +271,7 @@ if (isDifferent) {
 }
 
 // ✅ NORMAL ADD
-await fetch("http://localhost:5000/api/cart/add", {
+await fetch("https://campusbite-ur6n.onrender.com/api/cart/add", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
@@ -293,7 +294,7 @@ const handleConfirmSwitch = async () => {
   if (!pendingItem) return;
 
   // ✅ NOW ADD ITEM (AFTER CONFIRM)
-  await fetch("http://localhost:5000/api/cart/add", {
+  await fetch("https://campusbite-ur6n.onrender.com/api/cart/add", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

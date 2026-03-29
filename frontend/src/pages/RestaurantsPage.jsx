@@ -14,7 +14,7 @@ export default function RestaurantsPage() {
     const fetchRestaurants = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/restaurants/${location}`
+          `https://campusbite-ur6n.onrender.com/api/restaurants/${location}`
         );
         const data = await res.json();
 
@@ -94,7 +94,7 @@ export default function RestaurantsPage() {
               <img
                 src={
                   restaurant.banner_image
-                    ? `http://localhost:5000${restaurant.banner_image}`
+                    ? `https://campusbite-ur6n.onrender.com${restaurant.banner_image}`
                     : "/fallback.jpg"
                 }
                 alt={restaurant.name}

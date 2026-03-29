@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/menu";
+const API = "https://campusbite-ur6n.onrender.com/api/menu";
 
 // ✅ Get menu (all or by restaurant)
 export const getMenu = async (restaurantId) => {

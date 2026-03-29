@@ -11,12 +11,11 @@ const app = express();
 /* ================= MIDDLEWARE ================= */
 
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://your-frontend.vercel.app"
-  ],
+  origin: "*", // for testing (later restrict)
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+
 
 app.use(express.json());
 

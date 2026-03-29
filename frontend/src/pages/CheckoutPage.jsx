@@ -53,7 +53,7 @@ const handlePayment = () => {
   setTimeout(async () => {
     try {
       // ✅ 1. CREATE ORDER FIRST
-      const res = await fetch("http://localhost:5000/api/orders/create", {
+      const res = await fetch("https://campusbite-ur6n.onrender.com/api/orders/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -79,7 +79,7 @@ const handlePayment = () => {
       console.log("ORDER SUCCESS:", data);
 
       // ✅ 2. THEN CLEAR CART
-      await fetch(`http://localhost:5000/api/cart/clear/${id}?user_id=${user.user_id}`, {
+      await fetch(`https://campusbite-ur6n.onrender.com/api/cart/clear/${id}?user_id=${user.user_id}`, {
         method: "DELETE"
       });
 

@@ -1,0 +1,1 @@
+export const API_URL = "https://campusbite-ur6n.onrender.com";
