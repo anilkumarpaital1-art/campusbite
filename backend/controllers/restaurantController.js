@@ -1,10 +1,10 @@
-const db = require("../config/db");
+const { queryDebug } = require("../config/db"); 
 
 /* ================= GET ALL RESTAURANTS ================= */
-
 exports.getRestaurants = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM canteens");
+    // ✅ Use queryDebug
+    const rows = await queryDebug("SELECT * FROM canteens");
 
     const fixNames = {
       "aste_of_italy.jpg": "taste_of_italy.jpg",
@@ -61,15 +61,13 @@ exports.getRestaurants = async (req, res) => {
   }
 };
 
-
 /* ================= GET RESTAURANTS BY LOCATION ================= */
-
 exports.getRestaurantsByLocation = async (req, res) => {
   try {
-
     const { location } = req.params;
 
-    const [rows] = await db.query(
+    // ✅ Use queryDebug with params
+    const rows = await queryDebug(
       "SELECT * FROM canteens WHERE location = ?",
       [location]
     );

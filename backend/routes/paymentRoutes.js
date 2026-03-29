@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const razorpay = require("../config/razorpay");
 const crypto = require("crypto");
-const db = require("../config/db"); // make sure this path is correct
+const { queryDebug } = require("../config/db");
 
 /* CREATE RAZORPAY ORDER */
 
@@ -75,7 +75,7 @@ if (expectedSignature === razorpay_signature) {
 
 try {
 
-await db.query(
+await queryDebug(
 "UPDATE orders SET payment_status='Paid', payment_id=? WHERE id=?",
 [razorpay_payment_id, order_id]
 );

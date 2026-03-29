@@ -1,17 +1,17 @@
-const db = require("../config/db");
+const { queryDebug } = require("../config/db")
 
 /* GET ORDERS WITH ITEMS */
 exports.getVendorOrders = async (req, res) => {
   const { canteen_id } = req.params;
 
   try {
-    const [orders] = await db.query(
+    const [orders] = await queryDebug(
       `SELECT * FROM orders WHERE canteen_id=? ORDER BY created_at DESC`,
       [canteen_id]
     );
 
     for (let order of orders) {
-      const [items] = await db.query(
+      const [items] = await queryDebug(
         `SELECT oi.*, m.item_name 
          FROM order_items oi
          JOIN menu_items m ON oi.item_id = m.item_id
@@ -35,7 +35,7 @@ exports.updateVendorOrderStatus = async (req, res) => {
   const { status } = req.body;
 
   try {
-    await db.query(
+    await queryDebug(
       "UPDATE orders SET status=? WHERE order_id=?",
       [status, order_id]
     );

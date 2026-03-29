@@ -1,21 +1,21 @@
-const db = require("../config/db");
+const { queryDebug } = require("../config/db")
 
 /* ================= GET STATS ================= */
 exports.getStats = async (req, res) => {
   try {
     const { canteen_id } = req.params;
 
-    const [[orders]] = await db.query(
+    const [[orders]] = await queryDebug(
       "SELECT COUNT(*) as total FROM orders WHERE canteen_id=?",
       [canteen_id]
     );
 
-    const [[revenue]] = await db.query(
+    const [[revenue]] = await queryDebug(
       "SELECT SUM(total_amount) as revenue FROM orders WHERE canteen_id=?",
       [canteen_id]
     );
 
-    const [[items]] = await db.query(
+    const [[items]] = await queryDebug(
       "SELECT COUNT(*) as total FROM menu_items WHERE canteen_id=?",
       [canteen_id]
     );
@@ -37,7 +37,7 @@ exports.getRecentOrders = async (req, res) => {
   try {
     const { canteen_id } = req.params;
 
-    const [orders] = await db.query(`
+    const [orders] = await queryDebug(`
       SELECT * FROM orders
       WHERE canteen_id=?
       ORDER BY created_at DESC
@@ -58,7 +58,7 @@ exports.updateOrderStatus = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    await db.query(
+    await queryDebug(
       "UPDATE orders SET status=? WHERE order_id=?",
       [status, id]
     );

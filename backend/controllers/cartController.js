@@ -1,7 +1,6 @@
-const db = require("../config/db");
+const { queryDebug } = require("../config/db"); // ✅ Use queryDebug
 
 /* ================= ADD TO CART ================= */
-
 exports.addToCart = async (req, res) => {
   try {
     const { user_id, menu_item_id, quantity = 1 } = req.body;
@@ -15,21 +14,18 @@ exports.addToCart = async (req, res) => {
 
     console.log("📥 AddToCart:", user_id, menu_item_id);
 
-    // ✅ ONLY ONE QUERY (REMOVE DUPLICATE)
-    const [existingItem] = await db.query(
+    const existingItem = await queryDebug(
       "SELECT * FROM cart WHERE user_id = ? AND menu_item_id = ?",
       [user_id, menu_item_id]
     );
 
     if (existingItem.length > 0) {
-      // 🔁 UPDATE
-      await db.query(
+      await queryDebug(
         "UPDATE cart SET quantity = quantity + ? WHERE user_id = ? AND menu_item_id = ?",
         [quantity, user_id, menu_item_id]
       );
     } else {
-      // ➕ INSERT
-      await db.query(
+      await queryDebug(
         "INSERT INTO cart (user_id, menu_item_id, quantity) VALUES (?, ?, ?)",
         [user_id, menu_item_id, quantity]
       );
@@ -49,13 +45,10 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-
 /* ================= GET CART ================= */
-
 exports.getCart = async (req, res) => {
   try {
     const { userId } = req.params;
-
     console.log("🛒 Fetch cart for:", userId);
 
     if (!userId) {
@@ -65,10 +58,10 @@ exports.getCart = async (req, res) => {
       });
     }
 
-    const [rows] = await db.query(`
+    const rows = await queryDebug(`
       SELECT 
         c.id AS cart_id,
-        c.menu_item_id AS item_id,   -- ✅ FIX
+        c.menu_item_id AS item_id,
         c.quantity,
         m.item_name,
         m.price,
@@ -76,10 +69,8 @@ exports.getCart = async (req, res) => {
         m.canteen_id,
         ct.name AS restaurant_name
       FROM cart c
-      LEFT JOIN menu_items m 
-        ON c.menu_item_id = m.item_id
-      LEFT JOIN canteens ct 
-        ON m.canteen_id = ct.canteen_id
+      LEFT JOIN menu_items m ON c.menu_item_id = m.item_id
+      LEFT JOIN canteens ct ON m.canteen_id = ct.canteen_id
       WHERE c.user_id = ?
     `, [userId]);
 
@@ -97,9 +88,7 @@ exports.getCart = async (req, res) => {
   }
 };
 
-
 /* ================= UPDATE CART ================= */
-
 exports.updateCart = async (req, res) => {
   try {
     const { user_id, menu_item_id, quantity } = req.body;
@@ -111,9 +100,8 @@ exports.updateCart = async (req, res) => {
       });
     }
 
-    // ❗ If quantity = 0 → delete item
     if (quantity === 0) {
-      await db.query(
+      await queryDebug(
         "DELETE FROM cart WHERE user_id = ? AND menu_item_id = ?",
         [user_id, menu_item_id]
       );
@@ -124,7 +112,7 @@ exports.updateCart = async (req, res) => {
       });
     }
 
-    await db.query(
+    await queryDebug(
       "UPDATE cart SET quantity = ? WHERE user_id = ? AND menu_item_id = ?",
       [quantity, user_id, menu_item_id]
     );
@@ -143,9 +131,7 @@ exports.updateCart = async (req, res) => {
   }
 };
 
-
 /* ================= REMOVE FROM CART ================= */
-
 exports.removeFromCart = async (req, res) => {
   try {
     const { user_id, menu_item_id } = req.body;
@@ -157,7 +143,7 @@ exports.removeFromCart = async (req, res) => {
       });
     }
 
-    await db.query(
+    await queryDebug(
       "DELETE FROM cart WHERE user_id = ? AND menu_item_id = ?",
       [user_id, menu_item_id]
     );

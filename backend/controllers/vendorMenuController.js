@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const { queryDebug } = require("../config/db")
 
 /* ================= ADD ITEM ================= */
 
@@ -13,7 +13,7 @@ exports.addItem = async (req, res) => {
       });
     }
 
-    await db.query(
+    await queryDebug(
       "INSERT INTO menu_items (canteen_id, item_name, price, available) VALUES (?, ?, ?, 1)",
       [canteen_id, item_name, price]
     );
@@ -45,7 +45,7 @@ exports.toggleAvailability = async (req, res) => {
       });
     }
 
-    await db.query(
+    await query(
       "UPDATE menu_items SET available=? WHERE item_id=?",
       [available, item_id]
     );

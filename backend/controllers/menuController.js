@@ -1,17 +1,14 @@
-const db = require("../config/db");
+const {  queryDebug } = require("../config/db"); 
 
 console.log("🚀 MENU API LOADED");
 
 /* ================= GET MENU ================= */
-
 const getMenu = async (req, res) => {
   try {
     console.log("=================================");
     console.log("🔥 CONTROLLER HIT");
 
-    // ✅ GET PARAM
     const { restaurantId } = req.params;
-
     console.log("👉 RAW restaurantId:", restaurantId);
 
     if (!restaurantId) {
@@ -21,12 +18,9 @@ const getMenu = async (req, res) => {
       });
     }
 
-    // 🔥 FIX: convert to number
     const id = Number(restaurantId);
-
     console.log("👉 CONVERTED ID:", id);
 
-    // ❗ safety check
     if (isNaN(id)) {
       return res.status(400).json({
         success: false,
@@ -34,8 +28,8 @@ const getMenu = async (req, res) => {
       });
     }
 
-    // ✅ MAIN QUERY
-    const [rows] = await db.query(
+    
+    const rows = await queryDebug(
       "SELECT * FROM menu_items WHERE canteen_id = ?",
       [id]
     );
@@ -57,7 +51,6 @@ const getMenu = async (req, res) => {
 };
 
 /* ================= ADD ITEM ================= */
-
 const addMenuItem = async (req, res) => {
   try {
     const { canteen_id, category_id, item_name, price, image } = req.body;
@@ -69,7 +62,7 @@ const addMenuItem = async (req, res) => {
       });
     }
 
-    const [result] = await db.query(
+    const result = await queryDebug(
       `INSERT INTO menu_items 
        (canteen_id, category_id, item_name, price, image, available) 
        VALUES (?, ?, ?, ?, ?, 1)`,
@@ -92,7 +85,6 @@ const addMenuItem = async (req, res) => {
 };
 
 /* ================= TOGGLE ================= */
-
 const toggleAvailability = async (req, res) => {
   try {
     const { item_id, available } = req.body;
@@ -104,7 +96,7 @@ const toggleAvailability = async (req, res) => {
       });
     }
 
-    await db.query(
+    await queryDebug(
       "UPDATE menu_items SET available=? WHERE item_id=?",
       [available, item_id]
     );
@@ -124,7 +116,6 @@ const toggleAvailability = async (req, res) => {
 };
 
 /* ================= EXPORT ================= */
-
 module.exports = {
   getMenu,
   addMenuItem,

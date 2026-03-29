@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-const db = require("./config/db.js");
+const { queryDebug } = require("./config/db")
 
 const app = express();
 
@@ -84,8 +84,8 @@ app.get("/", (req, res) => {
 // 🔥 VERY IMPORTANT DEBUG
 app.get("/debug-db", async (req, res) => {
   try {
-    const [dbName] = await db.query("SELECT DATABASE() as db");
-    const [count] = await db.query("SELECT COUNT(*) as total FROM menu_items");
+    const [dbName] = await queryDebug("SELECT DATABASE() as db");
+    const [count] = await queryDebug("SELECT COUNT(*) as total FROM menu_items");
 
     res.json({
       database: dbName[0].db,
@@ -101,7 +101,7 @@ app.get("/debug-db", async (req, res) => {
 
 app.get("/test-db", async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT 1");
+    const [rows] = await queryDebug("SELECT 1");
 
     res.json({
       success: true,

@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const { queryDebug } = require("../config/db")
 const express = require("express");
 const router = express.Router();
 
@@ -36,7 +36,7 @@ router.delete("/clear/:canteenId", async (req, res) => {
       });
     }
 
-    await db.query(
+    await queryDebug(
       `DELETE c FROM cart c
       JOIN menu_items m ON c.menu_item_id = m.item_id
       WHERE c.user_id = ? AND m.canteen_id = ?`,
