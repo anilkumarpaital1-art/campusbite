@@ -10,7 +10,6 @@ const [name,setName] = useState(user?.name || "");
 const [email,setEmail] = useState(user?.email || "");
 
 const saveProfile = () => {
-
 const updatedUser = {
 ...user,
 name,
@@ -20,17 +19,13 @@ email
 setUser(updatedUser);
 localStorage.setItem("user", JSON.stringify(updatedUser));
 setEditing(false);
-
 };
 
-
-const totalSpent = orders.length
-  ? orders.reduce(
-      (sum, order) => sum + Number(order.total_price ?? 0),
-      0
-    )
-  : 0;
-
+// ✅ safer total (no inflation bug)
+const totalSpent = orders.reduce((sum, order) => {
+  const price = parseFloat(order.total_price);
+  return sum + (isNaN(price) ? 0 : price);
+}, 0);
 
 const sortedOrders = [...orders].sort(
   (a, b) => new Date(b.order_time) - new Date(a.order_time)
@@ -41,24 +36,19 @@ return(
 <div className="min-h-screen bg-gray-100">
 
 {/* PROFILE BANNER */}
+<div className="h-28 sm:h-40 bg-gradient-to-r from-red-600 via-red-500 to-orange-500 shadow-md"></div>
 
-<div className="h-40 bg-gradient-to-r from-red-600 via-red-500 to-orange-500 shadow-md"></div>
-
-
-<div className="px-16 -mt-16 pb-10">
-
+<div className="px-4 sm:px-16 -mt-12 sm:-mt-16 pb-6 sm:pb-10">
 
 {/* PROFILE HEADER */}
+<div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
 
-<div className="bg-white rounded-xl shadow-lg p-6 flex justify-between items-start">
-
-<div className="flex gap-5 items-start">
+<div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-center sm:items-start text-center sm:text-left">
 
 {/* AVATAR */}
-
 <div className="relative">
 
-<div className="w-20 h-20 rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-white flex items-center justify-center text-3xl font-bold shadow-lg">
+<div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-r from-red-600 to-orange-500 text-white flex items-center justify-center text-2xl sm:text-3xl font-bold shadow-lg">
 {user?.name?.charAt(0).toUpperCase()}
 </div>
 
@@ -69,20 +59,19 @@ return(
 
 </div>
 
-
 <div>
 
-<h2 className="text-xl font-semibold text-gray-800">
+<h2 className="text-lg sm:text-xl font-semibold text-gray-800">
 {user?.name}
 </h2>
 
-<p className="text-sm text-gray-500 mb-3">
+<p className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">
 {user?.email}
 </p>
 
 {editing && (
 
-<div className="space-y-2 w-[260px]">
+<div className="space-y-2 w-full sm:w-[260px] mx-auto sm:mx-0">
 
 <input
 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-red-500 outline-none"
@@ -98,17 +87,17 @@ onChange={(e)=>setEmail(e.target.value)}
 placeholder="Email"
 />
 
-<div className="flex gap-2 pt-1">
+<div className="flex flex-col sm:flex-row gap-2 pt-1">
 
 <button
-className="bg-red-600 text-white px-4 py-1.5 rounded-md text-sm hover:bg-red-700 transition"
+className="bg-red-600 text-white px-4 py-2 sm:py-1.5 rounded-md text-sm hover:bg-red-700 transition w-full sm:w-auto"
 onClick={saveProfile}
 >
 Save
 </button>
 
 <button
-className="border border-gray-300 px-4 py-1.5 rounded-md text-sm hover:bg-gray-100"
+className="border border-gray-300 px-4 py-2 sm:py-1.5 rounded-md text-sm hover:bg-gray-100 w-full sm:w-auto"
 onClick={()=>setEditing(false)}
 >
 Cancel
@@ -135,9 +124,8 @@ Edit Profile
 
 </div>
 
-<div className="text-right">
-
-<p className="text-xs text-gray-500">
+<div className="text-center sm:text-right text-xs sm:text-sm">
+<p className="text-gray-500">
 Member Since
 </p>
 
@@ -151,27 +139,26 @@ Member Since
 
 
 {/* STATS */}
-
-<div className="grid grid-cols-4 gap-5 mt-8">
+<div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 mt-6 sm:mt-8">
 
 <div className="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
 <p className="text-xs text-gray-500">Total Orders</p>
-<p className="text-xl font-bold text-gray-800">{orders.length}</p>
+<p className="text-lg sm:text-xl font-bold text-gray-800">{orders.length}</p>
 </div>
 
 <div className="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
 <p className="text-xs text-gray-500">Favorites</p>
-<p className="text-xl font-bold text-gray-800">{favorites.length}</p>
+<p className="text-lg sm:text-xl font-bold text-gray-800">{favorites.length}</p>
 </div>
 
 <div className="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
 <p className="text-xs text-gray-500">Total Spent</p>
-<p className="text-xl font-bold text-gray-800">₹{totalSpent}</p>
+<p className="text-lg sm:text-xl font-bold text-gray-800">₹{totalSpent}</p>
 </div>
 
 <div className="bg-white rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
 <p className="text-xs text-gray-500">Last Order</p>
-<p className="text-sm font-semibold text-gray-800">
+<p className="text-xs sm:text-sm font-semibold text-gray-800">
 {sortedOrders[0]?.order_time
   ? new Date(sortedOrders[0].order_time).toLocaleDateString()
   : "—"}
@@ -182,21 +169,19 @@ Member Since
 
 
 {/* MAIN GRID */}
-
-<div className="grid grid-cols-[1.4fr_1fr] gap-6 mt-8">
+<div className="grid grid-cols-1 sm:grid-cols-[1.4fr_1fr] gap-4 sm:gap-6 mt-6 sm:mt-8">
 
 
 {/* LEFT SIDE */}
+<div className="space-y-4 sm:space-y-6">
 
-<div className="space-y-6">
+<div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 hover:shadow-md transition">
 
-<div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition">
-
-<h3 className="text-lg font-semibold text-gray-800 mb-4">
+<h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">
 Account Information
 </h3>
 
-<div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm text-gray-600">
 
 <p>
 <span className="font-medium text-gray-700">Name:</span> {user?.name}
@@ -219,9 +204,9 @@ Account Information
 </div>
 
 
-<div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition">
+<div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 hover:shadow-md transition">
 
-<h3 className="text-lg font-semibold text-gray-800 mb-2">
+<h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
 Saved Favorites
 </h3>
 
@@ -232,9 +217,9 @@ You currently have <span className="font-semibold">{favorites.length}</span> fav
 </div>
 
 
-<div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition">
+<div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 hover:shadow-md transition">
 
-<h3 className="text-lg font-semibold text-gray-800 mb-3">
+<h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3">
 CampusBite Benefits
 </h3>
 
@@ -253,12 +238,11 @@ CampusBite Benefits
 
 
 {/* RIGHT SIDE */}
+<div className="space-y-4 sm:space-y-6">
 
-<div className="space-y-6">
+<div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 hover:shadow-md transition">
 
-<div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition">
-
-<h3 className="text-lg font-semibold text-gray-800 mb-4">
+<h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">
 Food Activity
 </h3>
 
@@ -276,9 +260,9 @@ Food Activity
 </div>
 
 
-<div className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition">
+<div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 hover:shadow-md transition">
 
-<h3 className="text-lg font-semibold text-gray-800 mb-2">
+<h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-2">
 Account Status
 </h3>
 
@@ -289,7 +273,7 @@ Active CampusBite user since 2026.
 </div>
 
 
-<div className="bg-gradient-to-r from-red-600 to-orange-500 text-white rounded-xl shadow-md p-6">
+<div className="bg-gradient-to-r from-red-600 to-orange-500 text-white rounded-xl shadow-md p-4 sm:p-6">
 
 <h3 className="font-semibold mb-2">
 CampusBite Member

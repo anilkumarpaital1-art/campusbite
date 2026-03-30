@@ -64,19 +64,19 @@ function toggleSetting(key){
 
 return(
 
-<div className="min-h-screen bg-gray-50 px-8 py-6 space-y-6">
+<div className="min-h-screen bg-gray-50 px-4 sm:px-8 py-6 space-y-6">
 
 {/* HEADER */}
-<div className="flex justify-between items-center">
+<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
 
   <div>
-    <h1 className="text-3xl font-bold">🏪 My Restaurant</h1>
+    <h1 className="text-2xl sm:text-3xl font-bold">🏪 My Restaurant</h1>
     <p className="text-sm text-gray-500">Manage profile & settings</p>
   </div>
 
   <button
     onClick={()=>setIsOpen(!isOpen)}
-    className={`px-5 py-2 rounded-xl text-sm shadow
+    className={`w-full sm:w-auto px-5 py-2 rounded-xl text-sm shadow
       ${isOpen ? "bg-green-500 text-white" : "bg-red-500 text-white"}
     `}
   >
@@ -86,12 +86,12 @@ return(
 </div>
 
 {/* GRID */}
-<div className="grid lg:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
 {/* LEFT */}
 <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
 
-  <div className="relative h-44 bg-gray-200 flex items-center justify-center">
+  <div className="relative h-40 sm:h-44 bg-gray-200 flex items-center justify-center">
     {image ? <img src={image} className="w-full h-full object-cover"/> : "Upload Image"}
 
     <label className="absolute bottom-3 right-3 bg-white px-3 py-1 rounded-full text-xs shadow cursor-pointer">
@@ -132,7 +132,7 @@ return(
 </div>
 
 {/* RIGHT */}
-<div className="lg:col-span-2 space-y-6">
+<div className="lg:col-span-2 space-y-4 sm:space-y-6">
 
 <div className="bg-white p-6 rounded-2xl shadow border">
 <h3 className="font-semibold mb-4">Details</h3>
@@ -160,7 +160,7 @@ return(
 {showEdit && (
 <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
 
-<div className="bg-white p-6 rounded-2xl w-96 space-y-3">
+<div className="bg-white p-6 rounded-2xl w-[90%] sm:w-96 space-y-3">
 
 <h2 className="font-semibold text-lg">Edit Restaurant</h2>
 
@@ -201,7 +201,7 @@ className="border w-full p-2 rounded"
 {showSettings && (
 <div className="fixed inset-0 bg-black/30 flex items-center justify-center">
 
-<div className="bg-white p-6 rounded-2xl w-96 space-y-4">
+<div className="bg-white p-6 rounded-2xl w-[90%] sm:w-96 space-y-4">
 
 <h2 className="font-semibold text-lg">Settings</h2>
 

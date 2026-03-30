@@ -137,7 +137,7 @@ export default function CartPage() {
     .slice(0, 4);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 px-6 md:px-12 py-8 relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 px-4 sm:px-6 md:px-12 py-6 sm:py-8 relative">
 
         {showMsg && (
           <div className="fixed bottom-5 left-5 
@@ -150,10 +150,10 @@ export default function CartPage() {
           </div>
         )}
 
-      <h2 className="text-3xl font-bold mb-8">Your Cart</h2>
+      <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8">Your Cart</h2>
 
       {/* TABS */}
-      <div className="flex gap-3 mb-8 overflow-x-auto">
+      <div className="flex gap-2 sm:gap-3 mb-6 sm:mb-8 overflow-x-auto">
         {groupedCarts.map((c) => (
           <div
             key={c.id}
@@ -171,10 +171,10 @@ export default function CartPage() {
 
         
 
-      <div className="grid md:grid-cols-[1.4fr_1fr] gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-6 md:gap-10">
 
         {/* LEFT */}
-        <div className="space-y-4">
+        <div className="bg-white px-2 sm:px-3 py-2 rounded-lg mb-2 shadow-sm hover:shadow-md transition">
 
           {/* SHOW ONLY SELECTED CART */}
           {effectiveCanteen && cart[effectiveCanteen]?.length > 0 && (
@@ -259,7 +259,7 @@ export default function CartPage() {
         </div>
 
         {/* RIGHT */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
 
           {filteredSuggestions.length > 0 && (
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
@@ -321,7 +321,7 @@ export default function CartPage() {
               }
               navigate(`/checkout/${effectiveCanteen}`);
             }}
-            className={`w-full mt-4 py-2.5 rounded-lg text-white font-semibold transition 
+            className={`w-full mt-4 py-2.5 rounded-lg text-white text-sm sm:text-base font-semibold transition 
               ${!effectiveCanteen ? "bg-gray-400" : "bg-red-600 hover:bg-red-700"}`}
           >
             Checkout

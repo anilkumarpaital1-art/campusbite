@@ -78,21 +78,25 @@ const fallbackImg = "https://via.placeholder.com/400x250?text=Food";
 
 return (
 
-<div className="min-h-screen bg-gray-50 px-8 py-6 space-y-6">
+<div className="min-h-screen bg-gray-50 px-4 sm:px-8 py-6 space-y-6">
 
 {/* 🚧 COMING SOON */}
-<div className="bg-white border rounded-xl px-5 py-3 shadow-sm flex justify-between items-center">
+<div className="bg-white border rounded-xl px-4 sm:px-5 py-3 shadow-sm 
+flex flex-col sm:flex-row items-center sm:justify-between gap-2 text-center sm:text-left">
+  
   <p className="text-sm font-medium">
     🚧 Smart menu insights & automation coming soon
   </p>
+
   <span className="text-xs bg-gray-100 px-3 py-1 rounded-full">
     Coming Soon
   </span>
+
 </div>
 
 {/* HEADER */}
-<div>
-  <h1 className="text-3xl font-bold text-gray-800">
+<div className="text-center sm:text-left">
+  <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
     🍽️ Restaurant Menu
   </h1>
   <p className="text-sm text-gray-500">
@@ -101,7 +105,7 @@ return (
 </div>
 
 {/* MENU GRID */}
-<div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
 
 {menu.length === 0 && (
   <div className="col-span-full text-center py-16 text-gray-400">
@@ -125,12 +129,11 @@ return (
       <img
         src={item.image || fallbackImg}
         alt={item.item_name}
-        className="w-full h-44 object-cover"
+        className="w-full h-32 sm:h-44 object-cover"
         onError={(e)=> e.target.src = fallbackImg}
       />
 
-      {/* STATUS BADGE */}
-      <span className={`absolute top-3 left-3 text-xs px-3 py-1 rounded-full font-medium shadow
+      <span className={`absolute top-2 left-2 text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full font-medium shadow
         ${isAvailable ? "bg-green-500 text-white" : "bg-red-500 text-white"}
       `}>
         {isAvailable ? "Available" : "Unavailable"}
@@ -138,26 +141,25 @@ return (
     </div>
 
     {/* CONTENT */}
-    <div className="p-4 space-y-2">
+    <div className="p-3 sm:p-4 space-y-2 text-center sm:text-left">
 
-      <h3 className="text-sm font-semibold text-gray-800">
+      <h3 className="text-xs sm:text-sm font-semibold text-gray-800">
         {item.item_name}
       </h3>
 
-      <p className="text-sm font-medium text-gray-600">
+      <p className="text-xs sm:text-sm font-medium text-gray-600">
         ₹{item.price}
       </p>
 
-      {/* BUTTONS */}
-      <div className="flex gap-2 pt-3">
+      <div className="flex gap-2 pt-2 sm:pt-3">
 
         <button
           disabled={isAvailable}
           onClick={()=>setAvailability(item.item_id,1)}
-          className={`flex-1 py-1.5 text-xs rounded-lg transition
+          className={`flex-1 py-1 text-[10px] sm:text-xs rounded-lg transition
             ${isAvailable
               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-green-500 hover:bg-green-600 text-white shadow-sm"
+              : "bg-green-500 hover:bg-green-600 text-white"
             }`}
         >
           Available
@@ -166,10 +168,10 @@ return (
         <button
           disabled={!isAvailable}
           onClick={()=>setAvailability(item.item_id,0)}
-          className={`flex-1 py-1.5 text-xs rounded-lg transition
+          className={`flex-1 py-1 text-[10px] sm:text-xs rounded-lg transition
             ${!isAvailable
               ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-red-500 hover:bg-red-600 text-white shadow-sm"
+              : "bg-red-500 hover:bg-red-600 text-white"
             }`}
         >
           Unavailable
@@ -187,31 +189,31 @@ return (
 </div>
 
 {/* ADD ITEM */}
-<div className="bg-white p-6 rounded-2xl shadow-sm max-w-xl border">
+<div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm max-w-xl border mx-auto sm:mx-0">
 
-<h2 className="text-lg font-semibold mb-4">
+<h2 className="text-base sm:text-lg font-semibold mb-4 text-center sm:text-left">
 ➕ Add New Item
 </h2>
 
-<div className="flex gap-3">
+<div className="flex flex-col sm:flex-row gap-3">
 
 <input
 placeholder="Food name"
 value={newItem}
 onChange={(e)=>setNewItem(e.target.value)}
-className="flex-1 border px-4 py-2 rounded-lg text-sm focus:ring-2 focus:ring-green-400 outline-none"
+className="w-full border px-4 py-2 rounded-lg text-sm focus:ring-2 focus:ring-green-400 outline-none"
 />
 
 <input
 placeholder="Price"
 value={newPrice}
 onChange={(e)=>setNewPrice(e.target.value)}
-className="w-28 border px-4 py-2 rounded-lg text-sm focus:ring-2 focus:ring-green-400 outline-none"
+className="w-full sm:w-28 border px-4 py-2 rounded-lg text-sm focus:ring-2 focus:ring-green-400 outline-none"
 />
 
 <button
 onClick={addMenuItem}
-className="bg-green-500 hover:bg-green-600 text-white px-5 rounded-lg text-sm transition shadow-sm"
+className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg text-sm transition shadow-sm"
 >
 Add
 </button>

@@ -50,9 +50,9 @@ export default function RestaurantsPage() {
   <div className="min-h-screen bg-gray-100">
 
     {/* 🔥 HEADER SECTION */}
-   <div className="max-w-7xl mx-auto px-6 pt-10 pb-6">
+   <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10 pb-6">
 
-      <h2 className="text-4xl font-extrabold text-gray-800 flex items-center gap-3">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-800 flex items-center gap-3">
         <span className="bg-black text-white px-3 py-1 rounded-lg text-xl">
           🍽
         </span>
@@ -70,9 +70,9 @@ export default function RestaurantsPage() {
     </div>
 
     {/* 🔥 GRID */}
-    <div className="max-w-7xl mx-auto px-6 pb-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-10">
 
-      <div className={`grid gap-8
+      <div className={`grid gap-4 sm:gap-6 md:gap-8
         ${restaurants.length === 1 
           ? "grid-cols-1 justify-items-center" 
           : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
@@ -90,7 +90,7 @@ export default function RestaurantsPage() {
           >
 
             {/* 🔥 IMAGE (FIXED HEIGHT SAME EVERYWHERE) */}
-            <div className="h-44 w-full overflow-hidden">
+            <div className="h-36 sm:h-40 md:h-44 w-full overflow-hidden">
               <img
                 src={
                   restaurant.banner_image
@@ -103,12 +103,12 @@ export default function RestaurantsPage() {
             </div>
 
             {/* 🔥 CONTENT */}
-            <div className="p-4 flex flex-col justify-between flex-1">
+            <div className="p-3 sm:p-4 flex flex-col justify-between flex-1">
 
               {/* TOP */}
               <div>
 
-                <h3 className="font-semibold text-lg text-gray-800 truncate hover:text-yellow-500 transition">
+                <h3 className="font-semibold text-base sm:text-lg text-gray-800 truncate hover:text-yellow-500 transition">
                   {restaurant.name}
                 </h3>
 

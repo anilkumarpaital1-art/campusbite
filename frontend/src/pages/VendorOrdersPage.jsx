@@ -84,10 +84,11 @@ export default function VendorOrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 px-6 py-6 space-y-6">
+    <div className="min-h-screen bg-gray-100 px-4 sm:px-6 py-6 space-y-6">
 
       {/* TOP BANNER */}
-      <div className="bg-white border rounded-2xl px-5 py-3 shadow-sm flex justify-between items-center">
+      <div className="bg-white border rounded-2xl px-4 sm:px-5 py-3 shadow-sm 
+flex flex-col sm:flex-row items-center sm:justify-between gap-2 text-center sm:text-left">
         <p className="text-sm font-medium">
           🚧 Smart analytics & automation coming soon
         </p>
@@ -97,23 +98,25 @@ export default function VendorOrdersPage() {
       </div>
 
       {/* HEADER */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Vendor Orders
-          </h1>
-          <p className="text-sm text-gray-500">
-            Real-time order management
-          </p>
-        </div>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
 
-        <button className="border px-4 py-2 rounded-xl text-sm hover:shadow-sm">
-          Online
-        </button>
-      </div>
+  <div>
+    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+      Vendor Orders
+    </h1>
+    <p className="text-sm text-gray-500">
+      Real-time order management
+    </p>
+  </div>
+
+  <button className="w-full sm:w-auto border px-4 py-2 rounded-xl text-sm">
+    Online
+  </button>
+
+</div>
 
       {/* STATS */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <Stat title="Total Orders" value={orders.length} />
         <Stat title="Pending" value={orders.filter(o => o.status==="Pending").length} />
         <Stat title="Preparing" value={orders.filter(o => o.status==="Preparing").length} />
@@ -121,19 +124,19 @@ export default function VendorOrdersPage() {
       </div>
 
       {/* CONTROLS */}
-      <div className="bg-white p-4 rounded-2xl shadow-sm flex gap-3 flex-wrap">
+      <div className="bg-white p-4 rounded-2xl shadow-sm flex flex-col sm:flex-row gap-3">
         <input
           type="text"
           placeholder="Search order..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="border px-3 py-2 rounded-xl text-sm w-60 focus:outline-none"
+          className="border px-3 py-2 rounded-xl text-sm w-full sm:w-60"
         />
 
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-          className="border px-3 py-2 rounded-xl text-sm"
+          className="border px-3 py-2 rounded-xl text-sm w-full sm:w-auto" 
         >
           <option>All</option>
           <option>Pending</option>
@@ -145,7 +148,7 @@ export default function VendorOrdersPage() {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
-          className="border px-3 py-2 rounded-xl text-sm"
+          className="border px-3 py-2 rounded-xl text-sm w-full sm:w-auto"
         >
           <option value="latest">Latest</option>
           <option value="oldest">Oldest</option>
@@ -153,7 +156,7 @@ export default function VendorOrdersPage() {
       </div>
 
       {/* MAIN GRID */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {/* LEFT */}
         <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm space-y-4">
@@ -170,7 +173,7 @@ export default function VendorOrdersPage() {
             return (
               <div
                 key={order.order_id}
-                className="border rounded-xl p-4 flex justify-between items-center hover:shadow-md transition"
+                className="border rounded-xl p-4 flex flex-col sm:flex-row justify-between gap-3 hover:shadow-md transition"
               >
 
                 {/* LEFT */}
@@ -193,7 +196,7 @@ export default function VendorOrdersPage() {
                 </div>
 
                 {/* ACTIONS */}
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap justify-center sm:justify-start">
 
                   <button
                     disabled={!isPending}
@@ -228,7 +231,7 @@ export default function VendorOrdersPage() {
         </div>
 
         {/* RIGHT PANEL */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
 
           <div className="bg-white p-4 rounded-2xl shadow-sm">
             <h3 className="text-sm font-semibold mb-2">

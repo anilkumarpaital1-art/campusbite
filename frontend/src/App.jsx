@@ -42,13 +42,17 @@ function App() {
     <AppLoader>
       <ScrollToTop />
 
-      <div className="flex flex-col min-h-screen">
+       <div className="w-full min-h-screen overflow-x-hidden flex flex-col">
 
         {/* NAVBAR */}
         <Navbar />
 
+<div className="pt-[70px]">
+  <Routes />
+</div>
+
         {/* MAIN CONTENT */}
-        <main className="flex-grow">
+        <main className="flex-grow w-full">
           <Routes>
 
             {/* HOME */}
@@ -124,7 +128,6 @@ function App() {
             <Route path="/vendor-orders" element={<VendorOrdersPage />} />
             <Route path="/vendor-profile" element={<VendorProfilePage />} />
             <Route path="/vendor-menu" element={<VendorMenuPage />} />
-            <Route path="/vendor-dashboard" element={<VendorDashboard />} />
 
             <Route
               path="/vendor-dashboard"

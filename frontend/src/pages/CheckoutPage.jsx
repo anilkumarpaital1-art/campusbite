@@ -150,17 +150,17 @@ if (showSuccess) {
 }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 px-6 md:px-12 py-10">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 px-4 sm:px-6 md:px-12 py-6 sm:py-10">
 
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
 
-      <div className="grid md:grid-cols-[1.6fr_1fr] gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr] gap-6 md:gap-10">
 
         {/* LEFT */}
         <div className="space-y-6">
 
           {/* ORDER LIST (COMPACT) */}
-          <div className="bg-white p-5 rounded-3xl shadow-lg">
+          <div className="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-lg">
             <h2 className="font-semibold mb-4">Your Order</h2>
 
             {filteredCart.length === 0 ? (
@@ -170,7 +170,7 @@ if (showSuccess) {
                 {filteredCart.map(item => (
                   <div
                     key={`${item.menu_item_id || item.id}-${item.quantity}`}
-                    className="flex justify-between text-sm bg-gray-50 px-3 py-2 rounded-lg"
+                    className="flex justify-between text-xs sm:text-sm bg-gray-50 px-3 py-2 rounded-lg"
                   >
                     <span>{item.item_name} × {item.quantity}</span>
                     <span className="font-medium">
@@ -183,7 +183,7 @@ if (showSuccess) {
           </div>
 
           {/* PAYMENT METHODS */}
-          <div className="bg-white p-6 rounded-3xl shadow-lg">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-lg">
             <h2 className="font-semibold mb-4">Payment Method</h2>
 
             <div className="space-y-3">
@@ -197,7 +197,7 @@ if (showSuccess) {
                 <div
                   key={method.id}
                   onClick={() => setPaymentMethod(method.id)}
-                  className={`p-3 rounded-xl border cursor-pointer flex justify-between
+                  className={`p-3 sm:p-4 rounded-xl border cursor-pointer flex justify-between
                   ${paymentMethod === method.id
                     ? "border-red-500 bg-red-50"
                     : "hover:bg-gray-50"
@@ -238,7 +238,7 @@ if (showSuccess) {
                   onChange={(e) => setCard({ ...card, name: e.target.value })}
                 />
 
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
                   <input
                     placeholder="MM/YY"
                     className="w-full border px-3 py-2 rounded-xl"
@@ -266,7 +266,7 @@ if (showSuccess) {
         </div>
 
         {/* RIGHT - BILL */}
-        <div className="bg-white p-6 rounded-3xl shadow-lg sticky top-24 h-fit">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-lg md:sticky md:top-24 h-fit">
 
           <h2 className="font-semibold mb-5">Bill Summary</h2>
 

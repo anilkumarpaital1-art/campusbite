@@ -56,17 +56,17 @@ const lastOrder = visibleOrders.length
 
 return(
 
-<div className="min-h-[80vh] bg-gray-100 py-10 px-16">
+<div className="min-h-[80vh] bg-gray-100 px-4 sm:px-16 pt-[40px] sm:pt-[50px] pb-6 sm:pb-10">
 
 {/* HEADER */}
 
-<div className="mb-8">
+<div className="mb-6 sm:mb-8 text-left">
 
-<h1 className="text-3xl font-semibold text-gray-800">
+<h1 className="text-xl sm:text-3xl font-semibold text-gray-800">
 Your Orders
 </h1>
 
-<p className="text-gray-500 text-sm">
+<p className="text-gray-500 text-xs sm:text-sm mt-0.5">
 Track your recent food orders and delivery status
 </p>
 
@@ -75,7 +75,7 @@ Track your recent food orders and delivery status
 
 {/* MAIN GRID */}
 
-<div className="grid grid-cols-[1fr_280px] gap-8">
+<div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6 sm:gap-8">
 
 
 {visibleOrders.length === 0 && (
@@ -93,14 +93,14 @@ Track your recent food orders and delivery status
 
 <div
 key={order.order_id}
-className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-[2px] transition-all duration-300 px-5 py-4"
+className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 px-4 sm:px-5 py-3 sm:py-4"
 >
 
-<div className="flex justify-between items-center">
+<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
 
 <div>
 
-<h3 className="font-semibold text-gray-800 text-sm">
+<h3 className="font-semibold text-gray-800 text-xs sm:text-sm">
 Order #{order.order_id}
 </h3>
 
@@ -108,7 +108,7 @@ Order #{order.order_id}
 
 <div className="text-right">
 
-<p className="text-red-500 font-bold text-base">
+<p className="text-red-500 font-bold text-sm sm:text-base">
 ₹{order.total_price}
 </p>
 
@@ -131,7 +131,7 @@ Delivered
 
 <div className="flex justify-between items-center mt-2 text-sm">
 
-<div className="text-gray-600">
+<div className="text-gray-500 text-[11px] sm:text-sm">
 
 {Array.isArray(order.items) && order.items.map((item, i) => (
   <span key={item.id || item.item_name || i}>
@@ -158,12 +158,12 @@ Delivered
 
 {/* RIGHT SIDEBAR */}
 
-<div className="space-y-4">
+<div className="space-y-4 mt-4 lg:mt-0">
 
 
 {/* SUMMARY */}
 
-<div className="bg-white rounded-2xl border border-gray-100 shadow-md p-5">
+<div className="bg-white rounded-2xl border border-gray-100 shadow-md p-4 sm:p-5">
 
 <h3 className="font-semibold text-gray-800 mb-3">
 Order Summary
@@ -205,7 +205,7 @@ Order your favorite meals again instantly.
 
 <button
   onClick={() => navigate("/select-location")}
-  className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:scale-[1.02] transition-all duration-200 shadow-md"
+  className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white py-3 rounded-xl text-sm font-semibold hover:scale-[1.02] transition-all duration-200 shadow-md active:scale-95"
 >
   Browse Restaurants
 </button>

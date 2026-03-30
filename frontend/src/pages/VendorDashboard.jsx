@@ -68,35 +68,33 @@ export default function VendorDashboard() {
   }
 
   return (
-<div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex">
+<div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex flex-col lg:flex-row">
 
-<div className="flex-1 p-6 space-y-6">
+<div className="flex-1 p-4 sm:p-6 space-y-5 sm:space-y-6">
 
 {/* HEADER */}
-<div className="flex justify-between items-center">
-  <div>
-    <h1 className="text-3xl font-bold text-gray-800">
-      {restaurant?.name}
-    </h1>
-    <p className="text-sm text-gray-500">
-      Operations Dashboard
-    </p>
-  </div>
+<div className="flex items-start justify-between">
+<div>
+  <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+    {restaurant?.name}
+  </h1>
+  <p className="text-sm text-gray-500">
+    Operations Dashboard
+  </p>
+</div>
 
-  <button
-    onClick={() => setIsOpen(!isOpen)}
-    className={`px-5 py-2 rounded-full text-sm font-medium shadow-lg
-      ${isOpen
-        ? "bg-green-500 text-white"
-        : "bg-red-500 text-white"
-      }`}
-  >
-    {isOpen ? "🟢 Live" : "🔴 Offline"}
-  </button>
+<button
+  onClick={() => setIsOpen(!isOpen)}
+  className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg whitespace-nowrap
+    ${isOpen ? "bg-green-500 text-white" : "bg-red-500 text-white"}
+  `}
+>
+  {isOpen ? "🟢 Live" : "🔴 Offline"}
+</button>
 </div>
 
 {/* BANNER */}
-<div className="bg-white border rounded-xl p-4 flex justify-between items-center shadow-sm">
+<div className="bg-white border rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center gap-2 shadow-sm text-center sm:text-left">
   <p className="text-sm font-medium text-gray-700">
     🚀 AI automation & insights coming soon
   </p>
@@ -106,7 +104,7 @@ export default function VendorDashboard() {
 </div>
 
 {/* STATS */}
-<div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
   <BigStat title="Orders" value={totalOrders}/>
   <BigStat title="Revenue" value={`₹${revenue}`}/>
   <BigStat title="Pending" value={pendingOrders.length}/>
@@ -114,7 +112,7 @@ export default function VendorDashboard() {
 </div>
 
 {/* MAIN GRID */}
-<div className="grid lg:grid-cols-4 gap-6">
+<div className="grid grid-cols-1 lg:grid-cols-4 gap-5 sm:gap-6">
 
 {/* LEFT */}
 <div className="lg:col-span-3 space-y-6">
@@ -175,7 +173,7 @@ export default function VendorDashboard() {
 
     <div
       key={order.id}
-      className="bg-gray-50 border rounded-xl p-4 flex flex-col md:flex-row justify-between gap-4 hover:shadow-lg transition"
+      className="bg-gray-50 border rounded-xl p-4 flex flex-col sm:flex-row justify-between gap-4 hover:shadow-lg transition"
     >
 
       <div>
@@ -201,7 +199,7 @@ export default function VendorDashboard() {
         </p>
       </div>
 
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-2 flex-wrap justify-center sm:justify-start">
 
         <ActionBtn label="Accept" color="blue"
           onClick={() => updateOrderStatus(order.id, "Preparing")}
@@ -226,7 +224,7 @@ export default function VendorDashboard() {
 </div>
 
 {/* RIGHT PANEL */}
-<div className="space-y-6">
+<div className="space-y-5 sm:space-y-6">
 
   <div className="bg-white rounded-xl shadow-md p-5">
     <h3 className="font-semibold mb-3">Pending Orders</h3>

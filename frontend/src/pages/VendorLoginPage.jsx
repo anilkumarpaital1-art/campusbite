@@ -9,7 +9,6 @@ const [loading, setLoading] = useState(false);
 const [error, setError] = useState("");
 
 const navigate = useNavigate();
-
 const { switchToVendor } = useContext(AppContext);
 
 const [email,setEmail] = useState("");
@@ -42,15 +41,13 @@ const handleLogin = async () => {
   }
 };
 
-
 return(
 
-<div className="min-h-screen flex">
+<div className="min-h-screen flex flex-col md:flex-row pt-[72px]">
 
-{/* LEFT SIDE */}
-
+{/* LEFT SIDE (HIDDEN ON MOBILE) */}
 <div
-className="w-[70%] relative flex items-center justify-center text-white"
+className="hidden md:flex w-[70%] relative items-center justify-center text-white"
 style={{
 backgroundImage:"url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1600')",
 backgroundSize:"cover",
@@ -62,10 +59,7 @@ backgroundPosition:"center"
 
 <div className="relative text-center max-w-xl px-10">
 
-<h1
-className="text-6xl font-bold mb-6"
-style={{fontFamily:"'Playfair Display', serif"}}
->
+<h1 className="text-6xl font-bold mb-6">
 CampusBite Partner
 </h1>
 
@@ -75,19 +69,9 @@ update menu items, and track your restaurant performance.
 </p>
 
 <div className="flex justify-center gap-16 text-6xl">
-
-<div className="cursor-pointer hover:-translate-y-4 hover:scale-110 transition duration-300">
-🍔
-</div>
-
-<div className="cursor-pointer hover:-translate-y-4 hover:scale-110 transition duration-300">
-🍕
-</div>
-
-<div className="cursor-pointer hover:-translate-y-4 hover:scale-110 transition duration-300">
-🍜
-</div>
-
+<div className="hover:-translate-y-4 hover:scale-110 transition duration-300">🍔</div>
+<div className="hover:-translate-y-4 hover:scale-110 transition duration-300">🍕</div>
+<div className="hover:-translate-y-4 hover:scale-110 transition duration-300">🍜</div>
 </div>
 
 </div>
@@ -95,17 +79,16 @@ update menu items, and track your restaurant performance.
 </div>
 
 
-{/* LOGIN FORM */}
+{/* RIGHT FORM */}
+<div className="w-full md:w-[30%] bg-gray-100 flex items-center justify-center px-4 sm:px-10 py-10">
 
-<div className="w-[30%] bg-white flex items-center justify-center px-10">
+<div className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-6 sm:p-8">
 
-<div className="w-full max-w-sm">
-
-<h2 className="text-3xl font-semibold text-gray-800 mb-2">
+<h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-2 text-center md:text-left">
 Vendor Login
 </h2>
 
-<p className="text-gray-500 text-sm mb-6">
+<p className="text-gray-500 text-sm mb-6 text-center md:text-left">
 Login to manage your restaurant
 </p>
 
@@ -114,35 +97,32 @@ Login to manage your restaurant
 <input
 type="email"
 placeholder="Email"
-autoComplete="email"
 value={email}
 onChange={(e)=>setEmail(e.target.value)}
-className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-400 outline-none"
+className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-400 outline-none"
 />
 
 <input
 type="password"
 placeholder="Password"
-autoComplete="current-password"
 value={password}
 onChange={(e)=>setPassword(e.target.value)}
-className="w-full border border-gray-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-400 outline-none"
+className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-400 outline-none"
 />
 
 {error && (
-  <p className="text-red-500 text-sm">{error}</p>
+  <p className="text-red-500 text-sm text-center md:text-left">{error}</p>
 )}
 
 <button 
   type="submit"
   disabled={loading}
-  className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg font-semibold shadow-md hover:shadow-lg transition"
+  className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition active:scale-95"
 >
   {loading ? "Logging in..." : "Login"}
 </button>
 
 </form>
-
 
 <p
 className="text-sm text-orange-500 cursor-pointer mt-4 text-center"
@@ -150,7 +130,6 @@ onClick={()=>navigate("/forgot-password")}
 >
 Forgot Password?
 </p>
-
 
 <p className="text-sm text-gray-600 mt-4 text-center">
 Don't have vendor account?

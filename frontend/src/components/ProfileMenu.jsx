@@ -54,6 +54,7 @@ setOpen(false);
 };
 
 document.addEventListener("mousedown",handleClickOutside);
+document.addEventListener("touchstart",handleClickOutside);
 
 return ()=>{
 document.removeEventListener("mousedown",handleClickOutside);
@@ -70,7 +71,10 @@ return(
 
 <div
 className="w-9 h-9 bg-white text-[#9b111e] rounded-full flex items-center justify-center cursor-pointer font-bold hover:bg-yellow-400 hover:text-black transition duration-300"
-onClick={()=>setOpen(!open)}
+onClick={(e)=>{
+  e.stopPropagation();
+  setOpen(prev => !prev);
+}}
 >
 👤
 </div>

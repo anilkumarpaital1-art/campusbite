@@ -1,16 +1,12 @@
-
 import { AppContext } from "../context/AppContext";
 import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import FoodCard from "../components/FoodCard";
 import { getMenu } from "../services/api";
 
-
-// ✅ OUTSIDE COMPONENT (STABLE)
 const nonVegCategories = [5, 6, 7, 42, 75];
 
 export default function MenuPage() {
-
 
   const { id } = useParams();
 
@@ -19,12 +15,6 @@ export default function MenuPage() {
   const [vegFilter, setVegFilter] = useState("all");
   const [sort, setSort] = useState("default");
 
-  /* ================= SET ACTIVE CANTEEN ================= */
-
-
-  /* ================= FETCH MENU ================= */
-
-  // ✅ FETCH MENU
   useEffect(() => {
     if (!id) return;
 
@@ -41,10 +31,6 @@ export default function MenuPage() {
     fetchMenu();
   }, [id]);
 
-  // ✅ SET ACTIVE CANTEEN (NEW)
-
-  /* ================= FILTER + SORT ================= */
-
   const filteredFoods = useMemo(() => {
 
     let result = foods.filter((food) => {
@@ -60,34 +46,28 @@ export default function MenuPage() {
       return matchSearch && matchVeg;
     });
 
-    if (sort === "low") {
-      result.sort((a, b) => a.price - b.price);
-    }
-
-    if (sort === "high") {
-      result.sort((a, b) => b.price - a.price);
-    }
+    if (sort === "low") result.sort((a, b) => a.price - b.price);
+    if (sort === "high") result.sort((a, b) => b.price - a.price);
 
     return result;
 
-  }, [foods, search, vegFilter, sort]); // ✅ FIXED
-
-  /* ================= UI ================= */
+  }, [foods, search, vegFilter, sort]);
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-10">
+    <div className="max-w-6xl mx-auto px-3 sm:px-6 py-6 sm:py-10">
 
-      <h1 className="text-3xl font-playfair text-darkred mb-8 text-center">
+      {/* TITLE */}
+      <h1 className="text-xl sm:text-3xl font-playfair text-darkred mb-4 sm:mb-8 text-center">
         Menu
       </h1>
 
       {/* FILTER */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-8">
 
-        <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex flex-wrap gap-2">
 
           <button
-            className={`px-4 py-2 rounded-full border ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base rounded-full border ${
               vegFilter === "veg" ? "bg-green-600 text-white" : "bg-white"
             }`}
             onClick={() => setVegFilter("veg")}
@@ -96,7 +76,7 @@ export default function MenuPage() {
           </button>
 
           <button
-            className={`px-4 py-2 rounded-full border ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base rounded-full border ${
               vegFilter === "nonveg" ? "bg-red-600 text-white" : "bg-white"
             }`}
             onClick={() => setVegFilter("nonveg")}
@@ -105,7 +85,7 @@ export default function MenuPage() {
           </button>
 
           <button
-            className={`px-4 py-2 rounded-full border ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base rounded-full border ${
               vegFilter === "all" ? "bg-gray-800 text-white" : "bg-white"
             }`}
             onClick={() => setVegFilter("all")}
@@ -114,19 +94,19 @@ export default function MenuPage() {
           </button>
 
           <select
-            className="border rounded-lg px-3 py-2"
+            className="border rounded-lg px-2 sm:px-3 py-1.5 sm:py-2 text-sm"
             value={sort}
             onChange={(e) => setSort(e.target.value)}
           >
             <option value="default">Sort</option>
-            <option value="low">Price Low → High</option>
-            <option value="high">Price High → Low</option>
+            <option value="low">Low → High</option>
+            <option value="high">High → Low</option>
           </select>
 
         </div>
 
         <input
-          className="border rounded-lg px-4 py-2 w-[220px]"
+          className="border rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 w-full sm:w-[220px] text-sm"
           type="text"
           placeholder="Search food..."
           value={search}
@@ -136,35 +116,35 @@ export default function MenuPage() {
       </div>
 
       {/* GRID */}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(230px,1fr))] gap-8">
+      <div className="
+        grid 
+        grid-cols-2 
+        sm:grid-cols-[repeat(auto-fit,minmax(200px,1fr))] 
+        gap-3 sm:gap-6 md:gap-8
+      ">
 
         {filteredFoods.length > 0 ? (
           filteredFoods.map((food) => {
 
-            if (!food.canteen_id) {
-              console.error("❌ Missing canteen_id:", food);
-              return null;
-            }
-
-            const restaurantId = Number(food.canteen_id);
-
-            console.log("FOOD RESTAURANT:", restaurantId);
+            if (!food.canteen_id) return null;
 
             return (
-              <FoodCard
-                key={food.item_id}
-                id={food.item_id}
-                name={food.item_name}
-                price={food.price}
-                image={food.image || "/default-food.jpg"}
-                veg={!nonVegCategories.includes(food.category_id)}
-                restaurantId={restaurantId}
-                restaurantName={`Canteen ${food.canteen_id}`}
-              />
+              <div className="scale-[0.95] sm:scale-100 origin-top">
+                <FoodCard
+                  key={food.item_id}
+                  id={food.item_id}
+                  name={food.item_name}
+                  price={food.price}
+                  image={food.image || "/default-food.jpg"}
+                  veg={!nonVegCategories.includes(food.category_id)}
+                  restaurantId={Number(food.canteen_id)}
+                  restaurantName={`Canteen ${food.canteen_id}`}
+                />
+              </div>
             );
           })
         ) : (
-          <p className="text-center col-span-full text-gray-500">
+          <p className="text-center col-span-full text-gray-500 text-sm">
             No items found 🍽️
           </p>
         )}
