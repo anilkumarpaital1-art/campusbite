@@ -1,5 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 
+import { useContext } from "react";
+import { AppContext } from "./context/AppContext";
+// eslint-disable-next-line no-unused-vars
+import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -38,111 +44,118 @@ import VendorMenuPage from "./pages/VendorMenuPage";
 import NotFound from "./pages/NotFound";
 
 function App() {
+
+  const { loading } = useContext(AppContext); // ✅ ADD THIS
+  const location = useLocation();
+
+  if (loading) {
+    return (
+    <div className="p-6 space-y-4 animate-pulse">
+      <div className="h-6 bg-gray-300 rounded w-1/3"></div>
+      <div className="h-40 bg-gray-300 rounded"></div>
+      <div className="h-40 bg-gray-300 rounded"></div>
+      <div className="h-40 bg-gray-300 rounded"></div>
+    </div>
+    );
+  }
+
   return (
-    <AppLoader>
+    <>
       <ScrollToTop />
 
        <div className="w-full min-h-screen overflow-x-hidden flex flex-col">
 
         {/* NAVBAR */}
-        <Navbar />
+<Navbar />
 
-<div className="pt-[70px]">
-  <Routes />
-</div>
+<main className="flex-grow w-full pt-[70px]">
+  <motion.div
+    key={location.pathname}   // 🔥 IMPORTANT FIX
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3 }}
+  >
+    <Routes>
 
-        {/* MAIN CONTENT */}
-        <main className="flex-grow w-full">
-          <Routes>
+    <Route path="/" element={<HomePage />} />
 
-            {/* HOME */}
-            <Route path="/" element={<HomePage />} />
+    <Route path="/login" element={<LoginPage />} />
+    <Route path="/register" element={<RegisterPage />} />
+    <Route path="/forgot-password" element={<ForgotPassword />} />
 
-            {/* AUTH */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+    <Route path="/restaurants" element={<RestaurantsPage />} />
 
-            {/* RESTAURANTS */}
-            <Route path="/restaurants" element={<RestaurantsPage />} />
+    <Route
+      path="/menu/:id"
+      element={
+        <ProtectedRoute>
+          <MenuPage />
+        </ProtectedRoute>
+      }
+    />
 
-            <Route
-              path="/menu/:id"
-              element={
-                <ProtectedRoute>
-                  <MenuPage />
-                </ProtectedRoute>
-              }
-            />
+    <Route
+      path="/cart"
+      element={
+        <ProtectedRoute>
+          <CartPage />
+        </ProtectedRoute>
+      }
+    />
 
-            {/* CART */}
-            <Route
-              path="/cart"
-              element={
-                <ProtectedRoute>
-                  <CartPage />
-                </ProtectedRoute>
-              }
-            />
-              <Route
-                path="/checkout/:id"
-                element={
-                  <ProtectedRoute>
-                    <CustomerRoute>
-                      <CheckoutPage />
-                    </CustomerRoute>
-                  </ProtectedRoute>
-                }
-            />
+    <Route
+      path="/checkout/:id"
+      element={
+        <ProtectedRoute>
+          <CustomerRoute>
+            <CheckoutPage />
+          </CustomerRoute>
+        </ProtectedRoute>
+      }
+    />
 
-            {/* USER */}
-            <Route
-              path="/orders"
-              element={
-                <ProtectedRoute>
-                  <OrdersPage />
-                </ProtectedRoute>
-              }
-            />
+    <Route
+      path="/orders"
+      element={
+        <ProtectedRoute>
+          <OrdersPage />
+        </ProtectedRoute>
+      }
+    />
 
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <ProfilePage />
-                </ProtectedRoute>
-              }
-            />
+    <Route
+      path="/profile"
+      element={
+        <ProtectedRoute>
+          <ProfilePage />
+        </ProtectedRoute>
+      }
+    />
 
+    <Route path="/select-location" element={<LocationPage />} />
+    <Route path="/restaurants/:location" element={<RestaurantsPage />} />
+    <Route path="/favorites" element={<FavoritesPage />} />
 
-            {/* LOCATION */}
-            <Route path="/select-location" element={<LocationPage />} />
-            <Route path="/restaurants/:location" element={<RestaurantsPage />} />
+    <Route path="/vendor-login" element={<VendorLoginPage />} />
+    <Route path="/vendor-register" element={<VendorRegisterPage />} />
+    <Route path="/vendor-orders" element={<VendorOrdersPage />} />
+    <Route path="/vendor-profile" element={<VendorProfilePage />} />
+    <Route path="/vendor-menu" element={<VendorMenuPage />} />
 
-                {/* FAV */}
-            <Route path="/favorites" element={<FavoritesPage />} />
+    <Route
+      path="/vendor-dashboard"
+      element={
+        <ProtectedRoute>
+          <VendorDashboard />
+        </ProtectedRoute>
+      }
+    />
 
-            {/* VENDOR */}
-            <Route path="/vendor-login" element={<VendorLoginPage />} />
-            <Route path="/vendor-register" element={<VendorRegisterPage />} />
-            <Route path="/vendor-orders" element={<VendorOrdersPage />} />
-            <Route path="/vendor-profile" element={<VendorProfilePage />} />
-            <Route path="/vendor-menu" element={<VendorMenuPage />} />
+    <Route path="*" element={<NotFound />} />
 
-            <Route
-              path="/vendor-dashboard"
-              element={
-                <ProtectedRoute>
-                  <VendorDashboard />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* 404 */}
-            <Route path="*" element={<NotFound />} />
-
-          </Routes>
-        </main>
+    </Routes>
+  </motion.div>
+</main>
 
         {/* GLOBAL COMPONENTS */}
         <SwitchCartModal />
@@ -150,7 +163,7 @@ function App() {
         <Footer />
 
       </div>
-    </AppLoader>
+    </>
   );
 }
 

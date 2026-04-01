@@ -45,6 +45,8 @@ export const AppProvider = ({ children }) => {
   const [cart, setCart] = useState({});
   const [activeCanteen, setActiveCanteen] = useState(null);
 
+  const [loading, setLoading] = useState(false);
+
   const [orders, setOrders] = useState([]);
 
   const [showSwitchModal, setShowSwitchModal] = useState(false);
@@ -125,33 +127,56 @@ const refreshCart = useCallback(async () => {
 }, [userId]);
 
 
-  useEffect(() => {
-  if (!userId) return;
-
-  const loadCart = async () => {
-    await refreshCart();
-  };
-
-  loadCart();
-
-}, [userId, refreshCart]);
-
 useEffect(() => {
   if (!userId) return;
 
-  const loadOrders = async () => {
-    try {
-      const res = await getOrders(userId);
-      console.log("📦 ORDERS FROM BACKEND:", res);
+  const loadAll = async () => {
+    setLoading(true);
 
-      setOrders(Array.isArray(res?.data) ? res.data : []);
+    try {
+      const [cartRes, ordersRes] = await Promise.all([
+        getCart(userId),
+        getOrders(userId)
+      ]);
+
+      // 🛒 CART
+      if (cartRes.success) {
+        const grouped = {};
+
+        cartRes.data.forEach(item => {
+          const canteen = item.canteen_id;
+
+          if (!grouped[canteen]) grouped[canteen] = [];
+
+          grouped[canteen].push({
+            id: item.item_id,
+            item_name: item.item_name,
+            price: item.price,
+            quantity: item.quantity,
+            restaurantName: item.restaurant_name
+          });
+        });
+
+        setCart(grouped);
+      }
+
+      // 📦 ORDERS
+      setOrders(Array.isArray(ordersRes?.data) ? ordersRes.data : []);
+
     } catch (err) {
-      console.error("❌ Orders fetch error:", err);
+      console.error("Load error:", err);
+      setCart({});
       setOrders([]);
     }
+
+    setTimeout(() => {
+      setLoading(false);   // 🔥 smooth UX
+    }, 300);
+
   };
 
-  loadOrders();
+  loadAll();
+
 }, [userId]);
 
 
@@ -378,37 +403,39 @@ const cartCount = useMemo(() => {
 }, [cart]);
 
   return (
-    <AppContext.Provider value={{
-      user,
-      setUser,
-      mode,
-      switchToVendor,
-      switchToCustomer,
-      vendorRestaurant,
-      setVendorRestaurant,
-      cart,
-      filteredCart,
-      activeCanteen,
-      effectiveCanteen,
-      setActiveCanteen,
-      cartCount,
-      refreshCart,
-      orders,
-      favorites,
-      addToCart: addToCartHandler,
-      removeFromCart,
-      increaseQty,
-      decreaseQty,
-      clearCartLocal,
-      toggleFavorite,
-      placeOrder,
-      logout,
-      showSwitchModal,
-      setShowSwitchModal,
-      handleConfirmSwitch,
-      handleCancelSwitch,
-      pendingItem
-    }}>
+<AppContext.Provider value={{
+  user,
+  setUser,
+  mode,
+  switchToVendor,
+  switchToCustomer,
+  vendorRestaurant,
+  setVendorRestaurant,
+  cart,
+  filteredCart,
+  activeCanteen,
+  effectiveCanteen,
+  setActiveCanteen,
+  cartCount,
+  refreshCart,
+  orders,
+  favorites,
+  addToCart: addToCartHandler,
+  removeFromCart,
+  increaseQty,
+  decreaseQty,
+  clearCartLocal,
+  toggleFavorite,
+  placeOrder,
+  logout,
+  showSwitchModal,
+  setShowSwitchModal,
+  handleConfirmSwitch,
+  handleCancelSwitch,
+  pendingItem,
+
+  loading   // ✅ ADD THIS LINE
+}}>
 
       {children}
 

@@ -9,6 +9,12 @@ exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
+
+        console.log("🔍 DB NAME CHECK");
+    const test = await queryDebug("SELECT DATABASE()");
+    console.log("👉 Connected DB:", test);
+
+    
     // Check if user already exists
     const existingUser = await queryDebug(
       "SELECT * FROM users WHERE email = ?",

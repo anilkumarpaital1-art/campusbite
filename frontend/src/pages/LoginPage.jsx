@@ -2,6 +2,8 @@ import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { loginUser } from "../services/authService";
+import toast from "react-hot-toast";
+
 
 export default function LoginPage(){
 
@@ -10,18 +12,25 @@ const navigate = useNavigate();
 
 const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
+const [loading, setLoading] = useState(false);
 
 /* REDIRECT IF ALREADY LOGGED IN */
-useEffect(()=>{
-const storedUser = localStorage.getItem("user");
-if(user || storedUser){
-navigate("/");
-}
-},[user,navigate]);
+useEffect(() => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+
+  if (!loading && (user || storedUser)) {
+    navigate("/");
+  }
+}, [user, navigate, loading]);
 
 /* LOGIN */
 const handleLogin = async (e) => {
   e.preventDefault();
+
+  if (loading) return; // 🚫 prevent double click
+
+  setLoading(true);
+
   try {
     const res = await loginUser({ email, password });
 
@@ -31,18 +40,20 @@ const handleLogin = async (e) => {
     localStorage.setItem("token", res.token);
     localStorage.setItem("user", JSON.stringify(userData));
 
-    alert("Login successful");
+    toast.success("Login successful");
     navigate("/");
 
   } catch (err) {
     console.error("❌ Login error:", err);
-    alert(err.message || "Login failed");
+    toast.error(err.message || "Login failed");
   }
+
+  setLoading(false);
 };
 
 return(
 
-<div className="flex flex-col md:flex-row min-h-[calc(100vh-72px)] bg-gray-100 pt-[72px]">
+<div className="flex flex-col md:flex-row min-h-[calc(100vh-72px)] bg-gray-100 pt-[72px] md:pt-0">
 
 {/* LEFT IMAGE (HIDDEN ON MOBILE) */}
 <div
@@ -109,9 +120,10 @@ Forgot Password?
 {/* LOGIN BUTTON */}
 <button
 type="submit"
-className="w-full bg-red-600 text-white py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-red-700 transition shadow-md"
+disabled={loading} // ✅ ADD
+className="w-full bg-red-600 text-white py-3 sm:py-4 rounded-xl text-base sm:text-lg font-semibold hover:bg-red-700 transition shadow-md disabled:opacity-50"
 >
-Login
+{loading ? "Logging in..." : "Login"} {/* ✅ ADD */}
 </button>
 
 {/* REGISTER */}

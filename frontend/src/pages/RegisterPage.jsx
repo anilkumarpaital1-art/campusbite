@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../services/api";
+import toast from "react-hot-toast";
 
 export default function RegisterPage(){
 
@@ -9,28 +10,32 @@ const navigate = useNavigate();
 const [name,setName] = useState("");
 const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
+const [loading, setLoading] = useState(false);
 
 const handleRegister = async (e) => {
-  e.preventDefault(); // 🔥 IMPORTANT
+  e.preventDefault();
 
-try{
+  if (loading) return; // 🚫 prevent double click
 
-const res = await registerUser({
-name,
-email,
-password
-});
+  setLoading(true);
 
-alert(res.message || "Registration successful");
+  try {
+    const res = await registerUser({
+      name,
+      email,
+      password
+    });
 
-navigate("/login");
 
-}catch(err){
 
-alert(err.message || "Registration failed");
+    toast.success(res.message || "Registration successful");
+    navigate("/login");
 
-}
+  } catch (err) {
+    alert(err.message || "Registration failed");
+  }
 
+  setLoading(false);
 };
 
 return(
@@ -106,12 +111,13 @@ focus:ring-2 focus:ring-red-500 outline-none transition-all duration-200 shadow-
 
 <button
 type="submit"
+disabled={loading} // ✅ ADD THIS
 className="w-full mt-5 bg-gradient-to-r from-red-500 to-red-600 text-white py-3 md:py-4 rounded-xl 
 text-base md:text-lg font-semibold shadow-lg hover:shadow-2xl 
 hover:scale-[1.02] active:scale-[0.97] 
-transition-all duration-200"
+transition-all duration-200 disabled:opacity-50"
 >
-Register
+{loading ? "Registering..." : "Register"} {/* ✅ ADD THIS */}
 </button>
 
 

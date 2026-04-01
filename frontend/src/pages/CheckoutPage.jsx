@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function CheckoutPage() {
 
@@ -103,6 +104,16 @@ const handlePayment = () => {
 
       console.log("CHECKOUT CART:", filteredCart);
 
+useEffect(() => {
+  if (showSuccess) {
+    window.scrollTo(0, 0); // 🔥 instant jump
+    document.body.style.overflow = "hidden"; // lock scroll
+  }
+
+  return () => {
+    document.body.style.overflow = "auto"; // unlock
+  };
+}, [showSuccess]);
 
 if (showSuccess) {
   return (
